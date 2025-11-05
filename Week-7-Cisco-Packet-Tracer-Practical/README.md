@@ -1,179 +1,136 @@
 # Week 7 – Cisco Packet Tracer Practical
 
 ### 🧠 Topics Covered
-- Introduction to **Cisco Packet Tracer**
+- Introduction to Cisco Packet Tracer
 - Creating and simulating network topologies
-- Assigning IP addresses to devices (using both GUI and CLI)
-- Configuring routers and switches
-- Testing connectivity using **ping** and **traceroute**
-- Observing packet flow in **Simulation Mode**
-- Troubleshooting network errors
+- Assigning IP addresses to devices
+- Configuring through both GUI and CLI
+- Testing connectivity using the ping command
+- Observing data flow and troubleshooting network errors
 
 ---
 
 ## 💻 What Is Cisco Packet Tracer?
-**Cisco Packet Tracer** is a powerful network simulation software developed by Cisco Systems.  
-It allows users to visually design, configure, and test network setups without needing real hardware.
-
-It’s widely used for:
-- Practicing Cisco commands (CLI)
-- Testing different network topologies
-- Understanding data flow between devices
-- Building confidence before real-world networking
+**Cisco Packet Tracer** is a powerful network simulation tool developed by Cisco Systems.  
+It allows students and professionals to design, configure, and troubleshoot virtual networks without needing physical hardware.
 
 ---
 
-## ⚙️ Network Setup Overview
-In this practical, we built and configured networks using:
-- **Routers**
-- **Switches**
-- **PCs**
-- **Access Points**
-- **Cables** (Straight-through, Crossover, Fiber)
-
-We configured devices using **two methods**:
+## ⚙️ Configuration Methods
+There are **two main configuration methods** in Cisco Packet Tracer:
 1. **Graphical User Interface (GUI)**
 2. **Command Line Interface (CLI)**
 
 ---
 
-## 🧩 1. Configuration Using GUI (Graphical User Interface)
+## 🖱️ GUI (Graphical User Interface) Configuration
+The **GUI** is a visual interface that allows you to configure devices by clicking through menus and options rather than typing commands.
 
-### 🖥️ PC Configuration (GUI)
-1. Click the **PC** → open the **Desktop tab** → select **IP Configuration**.  
-2. Enter the following:
-   - **IP Address:** e.g., `192.168.1.2`
-   - **Subnet Mask:** `255.255.255.0`
-   - **Default Gateway:** `192.168.1.1`
-3. Close the window.  
-4. Test connection by opening the **Command Prompt** on the PC and typing:
-ping 192.168.1.3
+### Steps:
+1. Click on a device (e.g., PC, router, or switch).  
+2. Go to the **Desktop** or **Config** tab.  
+3. Under **IP Configuration**, enter:
+   - IP Address  
+   - Subnet Mask  
+   - Default Gateway  
+4. For Routers and Switches:
+   - Go to the **Config** tab.  
+   - Select the interface (e.g., GigabitEthernet0/0).  
+   - Assign IP addresses and enable the interface.  
+5. Save and close the window.
 
+**Example (PC GUI Configuration):**
+```
+IP Address: 192.168.1.2
+Subnet Mask: 255.255.255.0
+Default Gateway: 192.168.1.1
+```
 
----
-
-### 📡 Router Configuration (GUI)
-1. Click the **Router** → open the **Config tab**.  
-2. Select **Interface (e.g., GigabitEthernet0/0)** → turn it **ON**.  
-3. Assign:
-- **IP Address:** `192.168.1.1`
-- **Subnet Mask:** `255.255.255.0`
-4. Repeat for additional interfaces if connecting multiple networks.
-5. Save the configuration.
-
----
-
-### 🔌 Switch Configuration (GUI)
-1. Click the **Switch** → go to **Config tab** → select **VLAN 1**.  
-2. Assign:
-- **IP Address:** `192.168.1.10`
-- **Subnet Mask:** `255.255.255.0`
-- **Default Gateway:** `192.168.1.1`
-3. Turn the interface **ON** and save.
+**Example (Router GUI Configuration):**
+- Interface: GigabitEthernet0/0  
+- IP Address: 192.168.1.1  
+- Subnet Mask: 255.255.255.0  
+- Status: On (No Shutdown)
 
 ---
 
-## 🧠 2. Configuration Using CLI (Command Line Interface)
+## 💻 CLI (Command Line Interface) Configuration
+The **CLI** is used for more advanced setup using Cisco IOS commands.  
+It provides better control and simulates how real Cisco devices are configured.
 
-### 🖧 Router CLI Configuration
+### Example 1 – Basic Router Configuration
+```
 Router> enable
 Router# configure terminal
 Router(config)# hostname R1
-R1(config)# enable secret myStrongPass
-
-! Configure interface GigabitEthernet0/0
 R1(config)# interface g0/0
 R1(config-if)# ip address 192.168.1.1 255.255.255.0
 R1(config-if)# no shutdown
 R1(config-if)# exit
-
-! Configure interface GigabitEthernet0/1
 R1(config)# interface g0/1
 R1(config-if)# ip address 10.0.0.1 255.255.255.0
 R1(config-if)# no shutdown
-R1(config-if)# exit
+R1(config)# exit
+R1# write
+```
 
-! Secure VTY lines (remote access)
-R1(config)# line vty 0 4
-R1(config-line)# password cisco
-R1(config-line)# login
-R1(config-line)# exit
-
-! Save configuration
-R1# write memory
-
-
----
-
-### 🖥️ Switch CLI Configuration
+### Example 2 – Basic Switch Configuration
+```
 Switch> enable
 Switch# configure terminal
-Switch(config)# hostname S1
-
-! Assign management IP to VLAN 1
-S1(config)# interface vlan 1
-S1(config-if)# ip address 192.168.1.10 255.255.255.0
-S1(config-if)# no shutdown
-S1(config-if)# exit
-
-! Set default gateway for switch management
-S1(config)# ip default-gateway 192.168.1.1
-
-! Secure VTY lines
-S1(config)# line vty 0 4
-S1(config-line)# password admin
-S1(config-line)# login
-S1(config-line)# exit
-
+Switch(config)# hostname SW1
+SW1(config)# interface vlan 1
+SW1(config-if)# ip address 192.168.1.3 255.255.255.0
+SW1(config-if)# no shutdown
+SW1(config-if)# exit
+SW1(config)# enable secret cisco123
+SW1(config)# line console 0
+SW1(config-line)# password admin
+SW1(config-line)# login
+SW1(config-line)# exit
+SW1# write
+```
 
 ---
 
-## 🔍 Verification and Testing
-
-### ✅ Basic Verification Commands
-| Command | Description |
-|----------|--------------|
-| `show ip interface brief` | Displays interface status and assigned IPs |
-| `show running-config` | Displays current configuration |
-| `show ip route` | Displays routing table (router only) |
-| `ping <IP>` | Tests connectivity between devices |
-| `traceroute <IP>` | Traces the path packets take to destination |
-
-### ✅ PC Command Prompt
-On any PC (Desktop → Command Prompt):
-ping 192.168.1.3
-tracert 192.168.1.3
+## 🌐 Connecting Devices
+1. **Select Devices:** PCs, Routers, Switches, Access Points, Servers.  
+2. **Connect Devices Using Proper Cables:**
+   - Straight-through → PC ↔ Switch or Router ↔ Switch  
+   - Crossover → Switch ↔ Switch or Router ↔ Router  
+3. **Assign IP Addresses:** via GUI or CLI.  
+4. **Set Default Gateways:** on PCs for internet connectivity.
 
 ---
 
-## 🧮 Example Network Scenario
-**Two LANs connected via a router:**
-
-| Device | Interface | IP Address | Subnet Mask |
-|---------|------------|-------------|--------------|
-| Router R1 | G0/0 | 192.168.1.1 | 255.255.255.0 |
-| Router R1 | G0/1 | 192.168.2.1 | 255.255.255.0 |
-| PC1 | NIC | 192.168.1.2 | 255.255.255.0 |
-| PC2 | NIC | 192.168.2.2 | 255.255.255.0 |
-
-**Test:**
-From PC1 → `ping 192.168.2.2`  
-✅ If replies are successful, routing works properly.
+## 🧪 Testing Connectivity
+1. On any PC → go to **Desktop > Command Prompt**.  
+2. Type the `ping` command to test:
+   ```
+   ping 192.168.1.3
+   ```
+3. If the connection is successful, replies will show up as:
+   ```
+   Reply from 192.168.1.3: bytes=32 time<1ms TTL=128
+   ```
+4. You can also switch to **Simulation Mode** to visually track packet movement between devices.
 
 ---
 
 ## 🧰 Practical Tasks Performed
-- Created and connected network devices using correct cables  
-- Configured PCs, Routers, and Switches using both GUI and CLI  
-- Assigned static IPs and gateways  
-- Used `ping` and `traceroute` to test communication  
-- Observed data flow in **Simulation Mode**  
-- Saved configurations using `write memory` and `copy run start`  
+- Created and simulated topologies (Star, Bus, Hybrid).  
+- Configured routers, switches, and PCs using GUI and CLI.  
+- Assigned static IP addresses and subnet masks.  
+- Tested connectivity using the ping command.  
+- Visualized data transfer in Simulation Mode.  
+- Configured an access point for wireless connection.
 
 ---
 
-## 🧩 Key Takeaway
-Mastering **both GUI and CLI** in Packet Tracer gives you the flexibility to design, configure, and troubleshoot networks effectively.  
-The GUI helps visualize setups easily, while the CLI builds real-world Cisco configuration skills crucial for advanced networking and cybersecurity.
+## 🧩 Key Takeaways
+- The **GUI** simplifies configuration and is great for beginners.  
+- The **CLI** builds real-world Cisco skills and offers deeper control.  
+- **Packet Tracer** helps you visualize, test, and understand how networks actually operate.  
+Together, GUI + CLI give you a full hands-on understanding of networking operations.
 
-Finalized Week 7 (GUI + CLI)
+---
